@@ -1,0 +1,66 @@
+float roof = 0 ;
+float floor = 10000 ;
+float radius = 10 ;
+
+// Environment Collision
+PVector floorTranslations = new PVector(100, 800, 100);
+int[] floorDimensions = {10000, 300, 10000};
+
+// Sphere Collisions
+PVector sphereMovement = new PVector(0, 0, 0);
+PVector sphereTranslations  = new PVector(150, 200, 200);
+float sphereRadius = 50;
+
+void setup(){
+  size(1000, 1000, P3D);
+  camera = new Camera();
+}
+
+void draw(){
+  background(0, 0, 0) ;
+  
+  pushMatrix() ;
+  fill(100, 100, 100);
+  translate(floorTranslations.x, floorTranslations.y, floorTranslations.z) ;
+  box(floorDimensions[0], floorDimensions[1], floorDimensions[2]) ; 
+  popMatrix() ;
+  
+  // Update sphere location
+  sphereTranslations.x += sphereMovement.x;
+  sphereTranslations.y += sphereMovement.y;
+  sphereTranslations.z += sphereMovement.z;
+  
+  stroke(255);
+  pushMatrix() ;
+  //fill(180, 15, 30);
+  noFill() ;
+  translate(sphereTranslations.x, sphereTranslations.y, sphereTranslations.z) ;
+  sphere(sphereRadius) ; 
+  popMatrix() ;
+  
+  camera.Update(1/frameRate) ;
+  
+  
+  
+  surface.setTitle("Water 2D FPS" + "  -  " +str(round(frameRate)));
+}
+
+void keyPressed() {
+  if (keyPressed && key == 'y' || key == 'Y') sphereMovement.z = -4;
+  if (keyPressed && key == 'h' || key == 'H') sphereMovement.z = 4;
+  if (keyPressed && key == 'g' || key == 'G') sphereMovement.x = -4;
+  if (keyPressed && key == 'j' || key == 'J') sphereMovement.x = 4;
+  if (keyPressed && key == 't' || key == 'T') sphereMovement.y = -4;
+  if (keyPressed && key == 'u' || key == 'U') sphereMovement.y = 4;
+  camera.HandleKeyPressed();
+}
+
+void keyReleased() {
+  if (key == 'y' || key == 'Y') sphereMovement.z = 0;
+  if (key == 'h' || key == 'H') sphereMovement.z = 0;
+  if (key == 'g' || key == 'G') sphereMovement.x = 0;
+  if (key == 'j' || key == 'J') sphereMovement.x = 0;
+  if (key == 't' || key == 'T') sphereMovement.y = 0;
+  if (key == 'u' || key == 'U') sphereMovement.y = 0;
+  camera.HandleKeyReleased();
+}
